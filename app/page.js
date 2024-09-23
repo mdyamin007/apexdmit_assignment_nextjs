@@ -1,101 +1,44 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button"
+import Image from "next/image"
+import bgImage from "../assets/BG.png"
+import { StarFilledIcon } from "@radix-ui/react-icons"
+import avatar from "../assets/avatar.png"
+import { LoginForm } from "@/components/LoginForm"
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="font-poppins flex min-h-screen">
+      <div className="w-2/5 hidden lg:block relative">
+        <div className="z-0 w-full h-full ">
+          <Image src={bgImage} style={{ width: "100%", objectFit: "cover" }} fill alt="background" />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="z-10 py-32 px-20 2xl:py-40 2xl:px-32 ml-10 text-white absolute top-0 left-0 w-full h-full flex flex-col justify-between">
+          <div className="max-w-[465px]">
+            <h1 className="text-4xl 2xl:text-6xl font-bold mb-10">Welcome to <br />our community</h1>
+            <p className="text-[#CBD5E1] font-thin text-sm 2xl:text-base">Clarity gives you the blocks & components you need to create a truly professional website.</p>
+          </div>
+          <div className="flex flex-col gap-6 max-w-[465px]">
+            <div className="flex gap-2 text-yellow-300">
+              <StarFilledIcon height={20} width={20} />
+              <StarFilledIcon height={20} width={20} />
+              <StarFilledIcon height={20} width={20} />
+              <StarFilledIcon height={20} width={20} />
+              <StarFilledIcon height={20} width={20} />
+            </div>
+            <p className="text-base 2xl:text-lg">"We love Landingfolio! Our designers were using it for their projects, so we already knew what kind of design they want."</p>
+            <div className="flex gap-4 justify-start items-center">
+              <Image height={"20px"} width={"20px"} src={avatar} alt="avatar" />
+              <div>
+                <p className="font-bold">Devon Lane</p>
+                <p className="text-[#CBD5E1]">Co-founder, Design.co</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="w-full lg:w-3/5 flex p-10 lg:p-32">
+        <LoginForm />
+      </div>
     </div>
-  );
+  )
 }
