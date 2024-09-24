@@ -9,79 +9,66 @@ import {
     TableRow,
   } from "@/components/ui/table"
   
-  const invoices = [
+  const data = [
     {
-      invoice: "INV001",
-      paymentStatus: "Paid",
-      totalAmount: "$250.00",
-      paymentMethod: "Credit Card",
+      items: "Item one",
+      store: "Dummy store",
+      runners_name: "Alex Mershel",
+      amount: "1000",
+      card_no: "82716",
+      transcaction_date: "01/08/2024",
     },
     {
-      invoice: "INV002",
-      paymentStatus: "Pending",
-      totalAmount: "$150.00",
-      paymentMethod: "PayPal",
+      items: "Item one",
+      store: "Dummy store",
+      runners_name: "Alex Mershel",
+      amount: "1000",
+      card_no: "82716",
+      transcaction_date: "01/08/2024",
     },
     {
-      invoice: "INV003",
-      paymentStatus: "Unpaid",
-      totalAmount: "$350.00",
-      paymentMethod: "Bank Transfer",
+      items: "Item one",
+      store: "Dummy store",
+      runners_name: "Alex Mershel",
+      amount: "1000",
+      card_no: "82716",
+      transcaction_date: "01/08/2024",
     },
     {
-      invoice: "INV004",
-      paymentStatus: "Paid",
-      totalAmount: "$450.00",
-      paymentMethod: "Credit Card",
-    },
-    {
-      invoice: "INV005",
-      paymentStatus: "Paid",
-      totalAmount: "$550.00",
-      paymentMethod: "PayPal",
-    },
-    {
-      invoice: "INV006",
-      paymentStatus: "Pending",
-      totalAmount: "$200.00",
-      paymentMethod: "Bank Transfer",
-    },
-    {
-      invoice: "INV007",
-      paymentStatus: "Unpaid",
-      totalAmount: "$300.00",
-      paymentMethod: "Credit Card",
+      items: "Item one",
+      store: "Dummy store",
+      runners_name: "Alex Mershel",
+      amount: "1000",
+      card_no: "82716",
+      transcaction_date: "01/08/2024",
     },
   ]
   
 function MaterialTable() {
     return (
-        <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
+        <Table className="border text-center border-white border-separate border-spacing-y-0 border-spacing-x-1">
         <TableHeader>
-            <TableRow className="text-center">
-            <TableHead>Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead>Amount</TableHead>
+            <TableRow className="bg-[#2563EB99] hover:bg-[#2563EB99]">
+            <TableHead className="text-white text-center">ITEMS</TableHead>
+            <TableHead className="text-white text-center">STORE</TableHead>
+            <TableHead className="text-white text-center">Runner's Name</TableHead>
+            <TableHead className="text-white text-center">Amount</TableHead>
+            <TableHead className="text-white text-center">CARD NO.</TableHead>
+            <TableHead className="text-white text-center">TRANSACTION DATE</TableHead>
             </TableRow>
         </TableHeader>
         <TableBody>
-            {invoices.map((invoice) => (
-            <TableRow key={invoice.invoice}>
-                <TableCell className="font-medium">{invoice.invoice}</TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell>{invoice.paymentMethod}</TableCell>
-                <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+            {data.map((obj, index) => (
+            <TableRow key={index} className="even:bg-white odd:bg-[#2563EB1A]">
+                <TableCell className="font-medium">{obj.items}</TableCell>
+                <TableCell>{obj.store}</TableCell>
+                <TableCell>{obj.runners_name}</TableCell>
+                <TableCell>{obj.amount}</TableCell>
+                <TableCell>{obj.card_no}</TableCell>
+                <TableCell>{obj.transcaction_date}</TableCell>
             </TableRow>
             ))}
         </TableBody>
-        <TableFooter>
-            <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
-            </TableRow>
-        </TableFooter>
         </Table>
     );
 }
