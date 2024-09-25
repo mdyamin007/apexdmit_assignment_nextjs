@@ -19,13 +19,27 @@ import {
 } from "@/components/ui/pagination"; // Adjust import based on your project structure
 import { useGetMaterialListQuery } from "@/lib/features/material/materialApiSlice";
 import { useState } from "react";
+import { Skeleton } from "./ui/skeleton";
 
 function MaterialTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const { data, isLoading, error } = useGetMaterialListQuery(currentPage);
 
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return (
+    <>
+      {[...Array(10)].map((_, index) => (
+        <TableRow key={index} >
+          <TableCell><Skeleton className="h-6 w-24" /></TableCell>
+          <TableCell><Skeleton className="h-6 w-32" /></TableCell>
+          <TableCell><Skeleton className="h-6 w-32" /></TableCell>
+          <TableCell><Skeleton className="h-6 w-24" /></TableCell>
+          <TableCell><Skeleton className="h-6 w-32" /></TableCell>
+          <TableCell><Skeleton className="h-6 w-32" /></TableCell>
+        </TableRow>
+      ))}
+    </>
+  );
   if (error) return <p>Error: {error.message}</p>;
 
   const purchases = data?.material_purchase_list?.data || [];
