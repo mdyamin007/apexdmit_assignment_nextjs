@@ -57,6 +57,11 @@ const MaterialPurchaseModal = ({ openAddModal, setOpenAddModal }) => {
   }
 
   const handleSave = () => {
+    function convertDateToMMDDYYYY(dateString) {
+      const [year, month, day] = dateString.split("-")
+      return `${month}-${day}-${year}`
+    }
+
     const formData = {
       material_purchase: rows.map((row) => ({
         line_item_name: row.line_item_name,
@@ -64,7 +69,7 @@ const MaterialPurchaseModal = ({ openAddModal, setOpenAddModal }) => {
         runners_name: row.runners_name,
         amount: parseFloat(row.amount),
         card_number: row.card_number,
-        transaction_date: row.transaction_date,
+        transaction_date: convertDateToMMDDYYYY(row.transaction_date),
       })),
     }
 
