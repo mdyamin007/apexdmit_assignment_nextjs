@@ -22,7 +22,7 @@ function Hero() {
               <StarFilledIcon height={20} width={20} />
               <StarFilledIcon height={20} width={20} />
             </div>
-            <p className="text-base 2xl:text-lg">"We love Landingfolio! Our designers were using it for their projects, so we already knew what kind of design they want."</p>
+            <p className="text-base 2xl:text-lg">&quot;We love Landingfolio! Our designers were using it for their projects, so we already knew what kind of design they want.&quot;</p>
             <div className="flex gap-4 justify-start items-center">
               <Image height={"20px"} width={"20px"} src={avatar} alt="avatar" />
               <div>

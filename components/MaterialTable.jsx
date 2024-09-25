@@ -52,7 +52,7 @@ function MaterialTable() {
           <TableRow className="bg-[#2563EB99] hover:bg-[#2563EB99]">
             <TableHead className="text-white text-center">ITEMS</TableHead>
             <TableHead className="text-white text-center">STORE</TableHead>
-            <TableHead className="text-white text-center">Runner's Name</TableHead>
+            <TableHead className="text-white text-center">Runner&apos;s Name</TableHead>
             <TableHead className="text-white text-center">Amount</TableHead>
             <TableHead className="text-white text-center">CARD NO.</TableHead>
             <TableHead className="text-white text-center">TRANSACTION DATE</TableHead>

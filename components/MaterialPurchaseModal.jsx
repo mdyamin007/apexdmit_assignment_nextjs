@@ -125,7 +125,7 @@ const MaterialPurchaseModal = ({ openAddModal, setOpenAddModal }) => {
               <tr className="bg-gray-100">
                 <th className="border border-gray-300 p-2">ITEMS</th>
                 <th className="border border-gray-300 p-2">STORE</th>
-                <th className="border border-gray-300 p-2">Runner's Name</th>
+                <th className="border border-gray-300 p-2">Runner&apos;s Name</th>
                 <th className="border border-gray-300 p-2">AMOUNT</th>
                 <th className="border border-gray-300 p-2">CARD NO.</th>
                 <th className="border border-gray-300 p-2">TRANSACTION DATE</th>
