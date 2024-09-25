@@ -3,31 +3,43 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { PlusIcon, TrashIcon } from '@radix-ui/react-icons';
+import { z } from "zod"
+
+const materialPurchaseSchema = z.object({
+  material_purchase: z.array(
+    z.object({
+      line_item_name: z.string().min(1, "Item name is required"),
+      store: z.string().min(1, "Store name is required"),
+      runners_name: z.string().min(1, "Runner's name is required"),
+      amount: z.number().min(0, "Amount should be a positive number"),
+      card_number: z.string().min(4, "Card number must be 5 digits"),
+      transaction_date: z.string().min(1, "Transaction date is required"),
+    })
+  ),
+})
 
 const MaterialPurchaseModal = ({ openAddModal, setOpenAddModal }) => {
 
   const [rows, setRows] = useState([
-    { item: "", store: "", runnerName: "", amount: "", cardNo: "", date: "" },
+    { line_item_name: "", store: "", runners_name: "", amount: "", card_number: "", transaction_date: "" },
   ])
 
-  // Function to handle adding a row
+  const [errors, setErrors] = useState([])
+
   const addRow = () => {
-    setRows([...rows, { item: "", store: "", runnerName: "", amount: "", cardNo: "", date: "" }])
+    setRows([...rows, { line_item_name: "", store: "", runners_name: "", amount: "", card_number: "", transaction_date: "" }])
   }
 
-  // Function to handle row deletion
   const deleteRow = (index) => {
     setRows(rows.filter((_, i) => i !== index))
   }
 
-  // Function to handle input change
   const handleInputChange = (index, field, value) => {
     const updatedRows = [...rows]
     updatedRows[index][field] = value
     setRows(updatedRows)
   }
 
-  // Function to handle key press for Enter or Tab
   const handleKeyPress = (event, index, field) => {
     if (event.key === "Enter" || event.key === "Tab") {
       event.preventDefault()
@@ -38,11 +50,35 @@ const MaterialPurchaseModal = ({ openAddModal, setOpenAddModal }) => {
     }
   }
 
-  // Function to get the next field based on current field
   const getNextField = (field) => {
     const fields = ["item", "store", "runnerName", "amount", "cardNo", "date"]
     const currentIndex = fields.indexOf(field)
     return fields[currentIndex + 1] || null
+  }
+
+  const handleSave = () => {
+    const formData = {
+      material_purchase: rows.map((row) => ({
+        line_item_name: row.line_item_name,
+        store: row.store,
+        runners_name: row.runners_name,
+        amount: parseFloat(row.amount),
+        card_number: row.card_number,
+        transaction_date: row.transaction_date,
+      })),
+    }
+
+    console.log(formData);
+
+    const validation = materialPurchaseSchema.safeParse(formData)
+
+    if (!validation.success) {
+      setErrors(validation.error.errors)
+      console.log(validation.error.errors)
+    } else {
+      console.log("Valid data:", validation.data)
+      setErrors([]) 
+    }
   }
 
   return (
@@ -70,11 +106,11 @@ const MaterialPurchaseModal = ({ openAddModal, setOpenAddModal }) => {
                   {/* ITEM Field */}
                   <td className="border border-gray-300 p-2">
                     <Input
-                      id={`input-${index}-item`}
+                      id={`input-${index}-line_item_name`}
                       autoFocus={index === 0}
-                      value={row.item}
-                      onChange={(e) => handleInputChange(index, "item", e.target.value)}
-                      onKeyDown={(e) => handleKeyPress(e, index, "item")}
+                      value={row.line_item_name}
+                      onChange={(e) => handleInputChange(index, "line_item_name", e.target.value)}
+                      onKeyDown={(e) => handleKeyPress(e, index, "line_item_name")}
                       placeholder="Item"
                     />
                   </td>
@@ -91,10 +127,10 @@ const MaterialPurchaseModal = ({ openAddModal, setOpenAddModal }) => {
                   {/* Runner's Name */}
                   <td className="border border-gray-300 p-2">
                     <Input
-                      id={`input-${index}-runnerName`}
-                      value={row.runnerName}
-                      onChange={(e) => handleInputChange(index, "runnerName", e.target.value)}
-                      onKeyDown={(e) => handleKeyPress(e, index, "runnerName")}
+                      id={`input-${index}-runners_name`}
+                      value={row.runners_name}
+                      onChange={(e) => handleInputChange(index, "runners_name", e.target.value)}
+                      onKeyDown={(e) => handleKeyPress(e, index, "runners_name")}
                       placeholder="Runner's Name"
                     />
                   </td>
@@ -112,21 +148,21 @@ const MaterialPurchaseModal = ({ openAddModal, setOpenAddModal }) => {
                   {/* CARD NO */}
                   <td className="border border-gray-300 p-2">
                     <Input
-                      id={`input-${index}-cardNo`}
-                      value={row.cardNo}
-                      onChange={(e) => handleInputChange(index, "cardNo", e.target.value)}
-                      onKeyDown={(e) => handleKeyPress(e, index, "cardNo")}
+                      id={`input-${index}-card_number`}
+                      value={row.card_number}
+                      onChange={(e) => handleInputChange(index, "card_number", e.target.value)}
+                      onKeyDown={(e) => handleKeyPress(e, index, "card_number")}
                       placeholder="Card No."
                     />
                   </td>
                   {/* TRANSACTION DATE */}
                   <td className="border border-gray-300 p-2">
                     <Input
-                      id={`input-${index}-date`}
+                      id={`input-${index}-transaction_date`}
                       type="date"
-                      value={row.date}
-                      onChange={(e) => handleInputChange(index, "date", e.target.value)}
-                      onKeyDown={(e) => handleKeyPress(e, index, "date")}
+                      value={row.transaction_date}
+                      onChange={(e) => handleInputChange(index, "transaction_date", e.target.value)}
+                      onKeyDown={(e) => handleKeyPress(e, index, "transaction_date")}
                     />
                   </td>
                   {/* DELETE BUTTON */}
@@ -139,14 +175,25 @@ const MaterialPurchaseModal = ({ openAddModal, setOpenAddModal }) => {
               ))}
             </tbody>
           </table>
-          <div className="flex justify-end mr-[4.5rem] border-b shadow-md">
+          <div className="flex justify-end mr-[4.5rem] border-b shadow-sm">
             <Button onClick={addRow} className="w-10 h-10 p-0 rounded-full flex items-center justify-center mr-8 my-2 bg-[#2563EB]">
               <PlusIcon height={25} width={25} />
             </Button>
           </div>
           <div className="flex justify-end mr-[4.5rem] mt-4 mb-2">
-              <Button className="mr-8 my-2 px-12 py-6 bg-[#2563EB] ">Save</Button>
+            <Button className="mr-8 my-2 px-12 py-6 bg-[#2563EB]" onClick={handleSave}>Save</Button>
           </div>
+
+          {/* Display errors */}
+          {errors.length > 0 && (
+            <div className="mt-4 text-red-500">
+              <ul>
+                {errors.map((error, idx) => (
+                  <li key={idx}>{error.path.join(" -> ")}: {error.message}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
         <div className="bg-[#2563EB] text-white px-4 py-2 rounded-lg rounded-t-none mt-4"></div>
       </DialogContent>
