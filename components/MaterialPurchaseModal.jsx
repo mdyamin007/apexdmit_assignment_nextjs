@@ -4,6 +4,8 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { PlusIcon, TrashIcon } from '@radix-ui/react-icons';
 import { z } from "zod"
+import { useCreateMaterialPurchaseMutation } from '@/lib/features/material/materialApiSlice';
+import { useToast } from '@/hooks/use-toast';
 
 const materialPurchaseSchema = z.object({
   material_purchase: z.array(
@@ -12,8 +14,13 @@ const materialPurchaseSchema = z.object({
       store: z.string().min(1, "Store name is required"),
       runners_name: z.string().min(1, "Runner's name is required"),
       amount: z.number().min(0, "Amount should be a positive number"),
-      card_number: z.string().min(4, "Card number must be 5 digits"),
-      transaction_date: z.string().min(1, "Transaction date is required"),
+      card_number: z.string().length(5, "Card number must be 5 digits"),
+      transaction_date: z.string().refine((dateStr) => {
+        const date = new Date(dateStr);
+        return !isNaN(date.getTime()); 
+      }, {
+        message: "Invalid date, must be a valid date",
+      }),
     })
   ),
 })
@@ -25,6 +32,9 @@ const MaterialPurchaseModal = ({ openAddModal, setOpenAddModal }) => {
   ])
 
   const [errors, setErrors] = useState([])
+
+  const { toast } = useToast()
+  const [createMaterialPurchase, { isLoading, isError }] = useCreateMaterialPurchaseMutation();
 
   const addRow = () => {
     setRows([...rows, { line_item_name: "", store: "", runners_name: "", amount: "", card_number: "", transaction_date: "" }])
@@ -51,12 +61,12 @@ const MaterialPurchaseModal = ({ openAddModal, setOpenAddModal }) => {
   }
 
   const getNextField = (field) => {
-    const fields = ["item", "store", "runnerName", "amount", "cardNo", "date"]
+    const fields = ["line_item_name", "store", "runners_name", "amount", "card_number", "transaction_date"]
     const currentIndex = fields.indexOf(field)
     return fields[currentIndex + 1] || null
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     function convertDateToMMDDYYYY(dateString) {
       const [year, month, day] = dateString.split("-")
       return `${month}-${day}-${year}`
@@ -80,9 +90,26 @@ const MaterialPurchaseModal = ({ openAddModal, setOpenAddModal }) => {
     if (!validation.success) {
       setErrors(validation.error.errors)
       console.log(validation.error.errors)
+      return;
     } else {
       console.log("Valid data:", validation.data)
       setErrors([]) 
+    }
+
+    try {
+      const response = await createMaterialPurchase(formData).unwrap(); 
+      console.log(response);
+      toast({
+        description: "Material Purchase Saved Successfully",
+      })
+      console.log(response);
+      setOpenAddModal(false); // Close modal on success
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: err.data.status_message,
+      })
+      console.error("Error creating material purchase:", err);
     }
   }
 
