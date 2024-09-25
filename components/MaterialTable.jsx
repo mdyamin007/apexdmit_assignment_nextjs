@@ -66,7 +66,11 @@ function MaterialTable() {
               <TableCell>{obj.runners_name}</TableCell>
               <TableCell>{obj.amount}</TableCell>
               <TableCell>{obj.card_number}</TableCell>
-              <TableCell>{new Date(obj.transaction_date).toLocaleDateString()}</TableCell>
+              <TableCell>{new Date(obj.transaction_date).toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+              })}</TableCell>
             </TableRow>
           ))}
         </TableBody>
