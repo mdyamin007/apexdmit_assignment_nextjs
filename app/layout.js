@@ -1,5 +1,6 @@
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata = {
   title: "Sign in",
@@ -15,6 +16,7 @@ export default function RootLayout({ children }) {
         <StoreProvider>
           {children}
         </StoreProvider>
+        <Toaster />
       </body>
     </html>
   );

@@ -1,8 +1,8 @@
 "use client"
 import { logOut, selectCurrentToken, selectCurrentUser } from "@/lib/features/auth/authSlice"
-import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import { AvatarIcon } from "@radix-ui/react-icons"
 import { Button } from "./ui/button"
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks"
 
 function NavBar() {
 

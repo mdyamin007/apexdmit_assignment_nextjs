@@ -6,12 +6,14 @@ import { setCredentials } from "@/lib/features/auth/authSlice"
 import { useLoginMutation } from "@/lib/features/auth/authApiSlice"
 import { useRef, useState } from "react"
 import { useRouter } from "next/navigation"
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch } from "@/hooks/reduxHooks"; 
+import { useToast } from "@/hooks/use-toast"
 
 
 export function LoginForm() {
     const userRef = useRef()
     const errRef = useRef()
+    const { toast } = useToast()
     
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -29,8 +31,12 @@ export function LoginForm() {
             dispatch(setCredentials({ user: userData.user_data, access_token: userData.access_token }));
             router.push("/dashboard");
         } catch (err) {
-            console.log(err);
-            setErrorMsg("Invalid username or password");
+            // console.log(err.data.status_message);
+            setErrorMsg(err.data.status_message);
+            toast({
+                variant: "destructive",
+                description: err.data.status_message,
+            })
         }
     }
 

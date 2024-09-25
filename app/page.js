@@ -2,7 +2,7 @@
 import Hero from "@/components/Hero"
 import { LoginForm } from "@/components/LoginForm"
 import { selectCurrentToken } from "@/lib/features/auth/authSlice"
-import { useAppSelector } from "@/lib/hooks"
+import { useAppSelector } from "@/hooks/reduxHooks";
 import { useRouter } from "next/navigation"
 
 export default function Home() {
